@@ -3,6 +3,10 @@ class Experiment:
         self.name = experiment_name
         self.time = [5, 15, 30, 45, 60, 75, 90, 105, 120]
         self.volume = 0.35
+        self.ca_0 = 2.703 / self.volume
+        self.cb_0 = 1.802 / self.volume
+        self.ce_0 = 0
+        self.cw_0 = 1e-9 / self.volume
         if len(conversion_arr) > 9:
             # Then it has additional information
             self.has_additional_info = True
