@@ -1,0 +1,25 @@
+reaction_parameters:
+  direct_activation_energy: 47341 # J/mol
+  indirect_activation_energy: 50739 # J/mol
+  k_boltz: 8.31 # J/(mol*K)
+  volume: 0.35 # reactional volume
+  acid_volume: 0.35
+  equilibrium_k: 5.2
+  Ka: 1 # (L/mol)
+  Kb: 3.591 # (L/mol)
+  Kw: 15.748 # (L/mol)
+  Ke: 4.1209
+  Da: 1.16e-9 # (m²/s)
+  Db: 1.5e-9 # (m²/s)
+  De: 1.75e-10 # (m²/s)
+  Dw: 1.54e-9 # (m²/s)
+  kca: 0.0887 # (m/s)
+  kcb: 0.1077 # (m/s)
+  kce: 0.125 # (m/s)
+  kcw: 0.0418 # (m/s)
+  Kpa: 0.0246
+  Kpb: 0.0348
+  Kpe: 0.00636
+  Kpw: 0.035
+  V2: 77.4e-6 # m³
+  rho: 0.9
