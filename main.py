@@ -1,7 +1,9 @@
 from src.utils.functions import *
 
 if __name__ == '__main__':
-    print('Hello World')
+    all_params = param_loader()
+    all_experiments = experiment_loader()
     print('Yet another test')
-    print(param_loader())
+
+
 
