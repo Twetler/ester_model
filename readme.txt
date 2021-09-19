@@ -1,3 +1,10 @@
+### Installation
+Type in the terminal (while configured inside the project's directory)
+ pip install -r requirements.txt
+
+ Now run the main.py
+
+
 Experiments Description
 
 S9_70_1
