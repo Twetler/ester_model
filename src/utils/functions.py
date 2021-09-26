@@ -14,7 +14,7 @@ def experiment_loader() -> list:
         return experiment_list
 
 
-def experiment_init(params, experiments) -> list:
+def experiment_init(experiments) -> list:
     initialized_experiments = list()
     for name in experiments['experimental_data'].keys():
         conversion = experiments['experimental_data'][str(name)]
