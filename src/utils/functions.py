@@ -24,3 +24,4 @@ def experiment_init(experiments) -> list:
         )
         initialized_experiments.append(experiment)
     return initialized_experiments
+
