@@ -1,3 +1,6 @@
+from utils.functions import param_loader
+
+
 class Experiment:
     def __init__(self, conversion_arr, experiment_name):
 
@@ -30,7 +33,8 @@ class Experiment:
                 '\n Temperature: ', self.temperature,
                 '\n H Ions Per Mass: ', self.h_ions_per_mass,
                 '\n Catalyst Concentration: ', self.catalyst_conc,
-                '\n Ion Exchange Capacity: ', self.ion_exchange_cap
+                '\n Ion Exchange Capacity:', self.ion_exchange_cap,
+                '\n'
             )
         else:
             return print(
@@ -38,3 +42,20 @@ class Experiment:
                 '\n Time Array: ', self.time,
                 '\n Conversions: ', self.conversion
             )
+
+    @staticmethod
+    def model_proposal(t, C, A, B, T, Ccat, CTIres, CTIacid):
+        params = param_loader()['reaction_parameters']
+        Keq = params['equilibrium_k']
+        Ead = params['direct_activation_energy']
+        R = params['k_boltz']
+
+        Ca = C[0]
+        Cb = C[1]
+        Ce = C[2]
+        Cw = C[3]
+
+        dCadt = -(B * Ccat * CTIres + Ccat * CTIacid * A) * exp(-Ead / (R * T)) * (Ca * Cb - Ce * Cw / Keq)
+        dCbdt = -(B * Ccat * CTIres + Ccat * CTIacid * A) * exp(-Ead / (R * T)) * (Ca * Cb - Ce * Cw / Keq)
+        dCedt = (B * Ccat * CTIres + Ccat * CTIacid * A) * exp(-Ead / (R * T)) * (Ca * Cb - Ce * Cw / Keq)
+        dCwdt = (B * Ccat * CTIres + Ccat * CTIacid * A) * exp(-Ead / (R * T)) * (Ca * Cb - Ce * Cw / Keq)

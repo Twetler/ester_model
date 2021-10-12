@@ -11,6 +11,21 @@ class TModel:
             if exp.name in self.exps_list:
                 self.experiments.append(exp)
 
-        def run(self):
-        # Reads only the experiments being used
+        def model_proposal(t, C, A, B, T, Ccat, CTIres, CTIacid):
+            params = param_loader()['reaction_parameters']
+            Keq = params['equilibrium_k']
+            Ead = params['direct_activation_energy']
+            R = params['k_boltz']
+
+            Ca = C[0]
+            Cb = C[1]
+            Ce = C[2]
+            Cw = C[3]
+
+            dCadt = -(B * Ccat * CTIres + Ccat * CTIacid * A) * exp(-Ead / (R * T)) * (Ca * Cb - Ce * Cw / Keq)
+            dCbdt = -(B * Ccat * CTIres + Ccat * CTIacid * A) * exp(-Ead / (R * T)) * (Ca * Cb - Ce * Cw / Keq)
+            dCedt = (B * Ccat * CTIres + Ccat * CTIacid * A) * exp(-Ead / (R * T)) * (Ca * Cb - Ce * Cw / Keq)
+            dCwdt = (B * Ccat * CTIres + Ccat * CTIacid * A) * exp(-Ead / (R * T)) * (Ca * Cb - Ce * Cw / Keq)
+
+    def run():
         all_params = param_loader()
