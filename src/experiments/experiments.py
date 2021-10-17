@@ -1,4 +1,4 @@
-from utils.functions import param_loader
+# from utils.functions import param_loader
 
 
 class Experiment:
@@ -59,3 +59,5 @@ class Experiment:
         dCbdt = -(B * Ccat * CTIres + Ccat * CTIacid * A) * exp(-Ead / (R * T)) * (Ca * Cb - Ce * Cw / Keq)
         dCedt = (B * Ccat * CTIres + Ccat * CTIacid * A) * exp(-Ead / (R * T)) * (Ca * Cb - Ce * Cw / Keq)
         dCwdt = (B * Ccat * CTIres + Ccat * CTIacid * A) * exp(-Ead / (R * T)) * (Ca * Cb - Ce * Cw / Keq)
+
+        return dCadt, dCbdt, dCedt, dCwdt
