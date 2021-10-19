@@ -3,6 +3,7 @@ from src.utils.functions import *
 import numpy as np
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
+import pandas as pd
 
 if __name__ == '__main__':
     all_experiments = experiment_init(experiments=experiment_loader())
@@ -20,21 +21,33 @@ if __name__ == '__main__':
         num=int(all_params['iterational_parameters']['steps'])
     )
 
+    params = all_params['reaction_parameters']
+    Keq = params['equilibrium_k']
+    Ead = params['direct_activation_energy']
+    R = params['k_boltz']
+
     for A in A_range:
         for B in B_range:
             for experiment in model_A.experiments:
                 C0 = [experiment.ca_0, experiment.cb_0, experiment.ce_0, experiment.cw_0]
-                print(f'Running experiment {experiment.name} with:' +
-                      '')
-                solve_ivp()
-                experiment.model_proposal(t=experiment.time,
-                                          C=C0,
-                                          A=A,
-                                          B=B,
+                print(f'Running experiment {experiment.name} with:\n' +
+                      f'A: {A}\n' +
+                      f'B: {B}')
+                sol = solve_ivp(fun=experiment.model_proposal,
+                                t_span=[0, 120],
+                                y0=C0,
+                                method='RK45',
+                                args=(A,
+                                      B,
+                                      experiment.temperature,
+                                      experiment.catalyst_conc,
+                                      experiment.ion_exchange_cap,
+                                      experiment.h_ions_per_mass,
+                                      Keq,
+                                      Ead,
+                                      R
+                                      )
+                                )
 
-                                          T=experiment.temperature,
-                                          Ccat=experiment.catalyst_conc,
-                                          CTIres=experiment.ion_exchange_cap,
-                                          CTIacid=experiment.h_ions_per_mass)
     print('end')
 model_proposal(t, C, A, B, T, Ccat, CTIres, CTIacid)
