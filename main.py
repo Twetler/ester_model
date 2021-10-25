@@ -29,7 +29,8 @@ if __name__ == '__main__':
 
     A_list = list()
     B_list = list()
-    B_list = list()
+    sqerror = list()
+    conc_profile = list()
 
     for A in A_range:
         for B in B_range:
@@ -51,9 +52,15 @@ if __name__ == '__main__':
                                       Keq,
                                       Ead,
                                       R
-                                      )
+                                      ),
+                                t_eval=experiment.time
                                 )
-                y_true = experiment.conversion
-                y_pred =
+                C = sol['y']
+                A_list.append(A)
+                B_list.append(B)
+                conc_profile.append(C)
+                plot_results(sol, experiment.conversion)
 
+                y_true = experiment.conversion
+                y_pred = C[1]
     print('end')

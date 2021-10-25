@@ -27,7 +27,7 @@ def experiment_init(experiments) -> list:
     return initialized_experiments
 
 
-def plot_results(sol):
+def plot_results(sol, exp):
     t = sol['t']
     Ca = sol['y'][0]
     Cb = sol['y'][1]
@@ -38,6 +38,7 @@ def plot_results(sol):
     plt.plot(t, Cb, label='B')
     plt.plot(t, Ce, label='E')
     plt.plot(t, Cw, label='W')
+    plt.plot(t, exp, label='Experiment')
     plt.legend()
     plt.title('Perfil de reação de esterificação C(t) ')
     plt.xlabel('t (min)')
