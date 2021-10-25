@@ -1,5 +1,6 @@
 import yaml
 from src.experiments.experiments import Experiment
+import matplotlib.pyplot as plt
 
 
 def param_loader() -> list:
@@ -24,3 +25,24 @@ def experiment_init(experiments) -> list:
         )
         initialized_experiments.append(experiment)
     return initialized_experiments
+
+
+def plot_results(sol):
+    t = sol['t']
+    Ca = sol['y'][0]
+    Cb = sol['y'][1]
+    Ce = sol['y'][2]
+    Cw = sol['y'][3]
+
+    plt.plot(t, Ca, label='A')
+    plt.plot(t, Cb, label='B')
+    plt.plot(t, Ce, label='E')
+    plt.plot(t, Cw, label='W')
+    plt.legend()
+    plt.title('Perfil de reação de esterificação C(t) ')
+    plt.xlabel('t (min)')
+    plt.ylabel('C (mol/L)')
+    plt.show()
+
+    return 0
+

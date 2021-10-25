@@ -1,6 +1,7 @@
 # from utils.functions import param_loader
 # from utils.functions import param_loader
 import math
+import numpy as np
 
 class Experiment:
     def __init__(self, conversion_arr, experiment_name):
@@ -15,7 +16,7 @@ class Experiment:
         if len(conversion_arr) > 9:
             # Then it has additional information
             self.has_additional_info = True
-            self.conversion = conversion_arr[0:9]
+            self.conversion = np.asarray(conversion_arr[0:9])
             self.temperature = float(conversion_arr[9])
             self.h_ions_per_mass = float(conversion_arr[10])
             self.catalyst_conc = conversion_arr[11] / self.volume
@@ -24,25 +25,25 @@ class Experiment:
             self.has_additional_info = False
             self.conversion = conversion_arr
 
-    def __str__(self):
-        if self.has_additional_info:
-            return print(
-                'Experiment Name: ', self.name,
-                '\n Volume: ', self.volume,
-                '\n Time Array: ', self.time,
-                '\n Conversions: ', self.conversion,
-                '\n Temperature: ', self.temperature,
-                '\n H Ions Per Mass: ', self.h_ions_per_mass,
-                '\n Catalyst Concentration: ', self.catalyst_conc,
-                '\n Ion Exchange Capacity:', self.ion_exchange_cap,
-                '\n'
-            )
-        else:
-            return print(
-                'Experiment Name: ', self.name,
-                '\n Time Array: ', self.time,
-                '\n Conversions: ', self.conversion
-            )
+    # def __str__(self):
+    #     if self.has_additional_info:
+    #         return print(
+    #             'Experiment Name: ', self.name,
+    #             '\n Volume: ', self.volume,
+    #             '\n Time Array: ', self.time,
+    #             '\n Conversions: ', self.conversion,
+    #             '\n Temperature: ', self.temperature,
+    #             '\n H Ions Per Mass: ', self.h_ions_per_mass,
+    #             '\n Catalyst Concentration: ', self.catalyst_conc,
+    #             '\n Ion Exchange Capacity:', self.ion_exchange_cap,
+    #             '\n'
+    #         )
+    #     else:
+    #         return print(
+    #             'Experiment Name: ', self.name,
+    #             '\n Time Array: ', self.time,
+    #             '\n Conversions: ', self.conversion
+    #         )
 
     @staticmethod
     def model_proposal(t, C, A, B, T, Ccat, CTIres, CTIacid, Keq, Ead, R):

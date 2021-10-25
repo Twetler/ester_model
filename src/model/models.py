@@ -27,5 +27,3 @@ class TModel:
             dCedt = (B * Ccat * CTIres + Ccat * CTIacid * A) * exp(-Ead / (R * T)) * (Ca * Cb - Ce * Cw / Keq)
             dCwdt = (B * Ccat * CTIres + Ccat * CTIacid * A) * exp(-Ead / (R * T)) * (Ca * Cb - Ce * Cw / Keq)
 
-    def run():
-        all_params = param_loader()

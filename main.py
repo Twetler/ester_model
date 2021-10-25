@@ -2,6 +2,7 @@ from model.models import TModel
 from src.utils.functions import *
 import numpy as np
 from scipy.integrate import solve_ivp
+from sklearn.metrics import mean_squared_error as mse
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -26,6 +27,10 @@ if __name__ == '__main__':
     Ead = params['direct_activation_energy']
     R = params['k_boltz']
 
+    A_list = list()
+    B_list = list()
+    B_list = list()
+
     for A in A_range:
         for B in B_range:
             for experiment in model_A.experiments:
@@ -48,6 +53,7 @@ if __name__ == '__main__':
                                       R
                                       )
                                 )
+                y_true = experiment.conversion
+                y_pred =
 
     print('end')
-model_proposal(t, C, A, B, T, Ccat, CTIres, CTIacid)
