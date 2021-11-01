@@ -1,4 +1,4 @@
-from model.models import TModel
+from model.models import ModelGroup
 from src.utils.functions import *
 import numpy as np
 from scipy.integrate import solve_ivp
@@ -8,7 +8,7 @@ import pandas as pd
 
 if __name__ == '__main__':
     all_experiments = experiment_init(experiments=experiment_loader())
-    model_A = TModel(experiments_list=all_experiments)
+    model_A = ModelGroup(experiments_list=all_experiments)
     all_params = param_loader()
 
     A_range = np.linspace(
@@ -56,11 +56,15 @@ if __name__ == '__main__':
                                 t_eval=experiment.time
                                 )
                 C = sol['y']
+
+                conc_profile.append(C)
+                plot_results(sol, experiment.conc_profileB)
+                msqerror = mse(y_true=experiment.time,
+                               y_pred=sol['y'][3])  # sol[][3] means Cw
+                # print(f'MSE: {msqerror} \n')
+
+                sqerror.append(msqerror)  # Generating results in array
                 A_list.append(A)
                 B_list.append(B)
-                conc_profile.append(C)
-                plot_results(sol, experiment.conversion)
 
-                y_true = experiment.conversion
-                y_pred = C[1]
     print('end')

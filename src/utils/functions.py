@@ -1,6 +1,7 @@
 import yaml
 from src.experiments.experiments import Experiment
 import matplotlib.pyplot as plt
+# import numpy as np
 
 
 def param_loader() -> list:
@@ -47,3 +48,30 @@ def plot_results(sol, exp):
 
     return 0
 
+
+def converter(input_arr, C0, to='X'):
+    """
+    Converts array from concentration into conversion and likewise
+        Parameters:
+        to (str): To concentration ('C') or conversion ('X')
+        C0 (float): Initial concentration (mol/L)
+        concentration_arr (array): Array containing the current concentration
+
+        Returns:
+        conversion_arr: Array containing converted conversion array
+       """
+    final_arr = list()
+    if to=='C':
+        for element in input_arr:
+            x = element
+            final_arr.append(
+                C0*(1-x)
+            )
+    if to=='X':
+        for element in input_arr:
+            C = element
+            final_arr.append(
+                (C - C0)/C0
+            )
+
+    return final_arr
