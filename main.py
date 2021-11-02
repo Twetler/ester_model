@@ -65,11 +65,11 @@ if __name__ == '__main__':
                 C = sol['y']
 
                 # plot_results(sol, experiment.conc_profileB)
-
+                pred_conversion = converter(sol['y'][1], experiment.cb_0, to='X')
                 conc_profile.append(C)
                 exp_msqerror = mse(
-                    y_true=experiment.conc_profileB,
-                    y_pred=sol['y'][1]  # sol[][1] means Cb
+                    y_true=experiment.conversion,
+                    y_pred=pred_conversion  # sol[][1] means Cb
                 )
                 group_sqerror = group_sqerror + exp_msqerror
                 # print(f'MSE: {msqerror} \n')
