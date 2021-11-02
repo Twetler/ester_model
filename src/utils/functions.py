@@ -80,7 +80,7 @@ def plot3d(x, y, z):
     plt.xlabel("A")
     plt.ylabel("B")
     ax.set_zlabel("MSE * -1")
-    ax.view_init(-90, 10)
+    ax.view_init(elev=10, azim=45)
 
     plt.show()
 
