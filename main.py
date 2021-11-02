@@ -29,16 +29,23 @@ if __name__ == '__main__':
 
     A_list = list()
     B_list = list()
-    sqerror = list()
+    group_sqerror = list()
+    all_sqerrors = list()
     conc_profile = list()
 
     for A in A_range:
         for B in B_range:
+            group_sqerror = 0
             for experiment in model_A.experiments:
                 C0 = [experiment.ca_0, experiment.cb_0, experiment.ce_0, experiment.cw_0]
-                print(f'Running experiment {experiment.name} with:\n' +
-                      f'A: {A}\n' +
-                      f'B: {B}')
+                # print(f'Running experiment {experiment.name} with:\n' +
+                #       f'A: {A}\n' +
+                #       f'B: {B}')
+                experiment.conc_profileB = converter(
+                    input_arr=experiment.conversion,
+                    C0=experiment.cb_0,
+                    to='C'
+                )
                 sol = solve_ivp(fun=experiment.model_proposal,
                                 t_span=[0, 120],
                                 y0=C0,
@@ -57,14 +64,28 @@ if __name__ == '__main__':
                                 )
                 C = sol['y']
 
+                # plot_results(sol, experiment.conc_profileB)
+
                 conc_profile.append(C)
-                plot_results(sol, experiment.conc_profileB)
-                msqerror = mse(y_true=experiment.time,
-                               y_pred=sol['y'][3])  # sol[][3] means Cw
+                exp_msqerror = mse(
+                    y_true=experiment.conc_profileB,
+                    y_pred=sol['y'][1]  # sol[][1] means Cb
+                )
+                group_sqerror = group_sqerror + exp_msqerror
                 # print(f'MSE: {msqerror} \n')
 
-                sqerror.append(msqerror)  # Generating results in array
-                A_list.append(A)
-                B_list.append(B)
+            A_list.append(A)
+            B_list.append(B)
+            all_sqerrors.append(group_sqerror)
+            print(f'Group A= {A}\n B= {B} \n MSE= {group_sqerror}')
+
+    results_dataframe = pd.DataFrame(
+        zip(
+            A_list,
+            B_list,
+            all_sqerrors
+        )
+        , columns=['A', 'B', 'MSE']
+    )
 
     print('end')

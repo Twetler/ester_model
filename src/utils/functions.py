@@ -1,6 +1,8 @@
 import yaml
 from src.experiments.experiments import Experiment
 import matplotlib.pyplot as plt
+
+
 # import numpy as np
 
 
@@ -35,11 +37,11 @@ def plot_results(sol, exp):
     Ce = sol['y'][2]
     Cw = sol['y'][3]
 
-    plt.plot(t, Ca, label='A')
-    plt.plot(t, Cb, label='B')
-    plt.plot(t, Ce, label='E')
-    plt.plot(t, Cw, label='W')
-    plt.plot(t, exp, label='Experiment')
+    # plt.plot(t, Ca, label='Ca_pred')
+    plt.plot(t, Cb, label='Cb_pred')
+    # plt.plot(t, Ce, label='Ce_pred')
+    # plt.plot(t, Cw, label='Cw_pred')
+    plt.plot(t, exp, label='Cb_real')
     plt.legend()
     plt.title('Perfil de reação de esterificação C(t) ')
     plt.xlabel('t (min)')
@@ -61,17 +63,17 @@ def converter(input_arr, C0, to='X'):
         conversion_arr: Array containing converted conversion array
        """
     final_arr = list()
-    if to=='C':
+    if to == 'C':
         for element in input_arr:
             x = element
             final_arr.append(
-                C0*(1-x)
+                C0 * (1 - x)
             )
-    if to=='X':
+    if to == 'X':
         for element in input_arr:
             C = element
             final_arr.append(
-                (C - C0)/C0
+                (C - C0) / C0
             )
 
     return final_arr

@@ -14,6 +14,7 @@ class Experiment:
         self.cb_0 = 1.802 / self.volume
         self.ce_0 = 0
         self.cw_0 = 1e-9 / self.volume
+        self.conc_profileB = []
 
         if len(conversion_arr) > 9:
             # Then it has additional information
@@ -23,7 +24,6 @@ class Experiment:
             self.h_ions_per_mass = float(conversion_arr[10])
             self.catalyst_conc = conversion_arr[11] / self.volume
             self.ion_exchange_cap = conversion_arr[12]
-            self.conc_profileB = []
         else:
             self.has_additional_info = False
             self.conversion = conversion_arr
