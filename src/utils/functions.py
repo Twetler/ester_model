@@ -77,7 +77,7 @@ def converter(input_arr, C0, to='X'):
 def plot3d(x, y, z):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-    ax.plot_trisurf(x, y, z)
+    ax.plot_surface(x, y, z)
     plt.show()
     return 0
 
