@@ -30,22 +30,16 @@ def experiment_init(experiments) -> list:
     return initialized_experiments
 
 
-def plot_results(sol, exp):
-    t = sol['t']
-    Ca = sol['y'][0]
-    Cb = sol['y'][1]
-    Ce = sol['y'][2]
-    Cw = sol['y'][3]
-
+def plot_results(t, x_true, x_pred):
     # plt.plot(t, Ca, label='Ca_pred')
-    plt.plot(t, Cb, label='Cb_pred')
+    plt.plot(t, x_pred, label='Cb_pred')
     # plt.plot(t, Ce, label='Ce_pred')
     # plt.plot(t, Cw, label='Cw_pred')
-    plt.plot(t, exp, label='Cb_real')
+    plt.plot(t, x_true, label='Cb_real')
     plt.legend()
-    plt.title('Perfil de reação de esterificação C(t) ')
+    plt.title('Conversão X(t) ')
     plt.xlabel('t (min)')
-    plt.ylabel('C (mol/L)')
+    plt.ylabel('X')
     plt.show()
 
     return 0
@@ -73,7 +67,7 @@ def converter(input_arr, C0, to='X'):
         for element in input_arr:
             C = element
             final_arr.append(
-                (C - C0) / C0
+                (C0 - C) / C0
             )
 
     return final_arr

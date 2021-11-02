@@ -32,12 +32,17 @@ if __name__ == '__main__':
     group_sqerror = list()
     all_sqerrors = list()
     conc_profile = list()
+    experiment_label = list()
+    run_id = list()
+    active_run = 0
 
     for A in A_range:
         for B in B_range:
             group_sqerror = 0
             for experiment in model_A.experiments:
+                active_run += 1
                 C0 = [experiment.ca_0, experiment.cb_0, experiment.ce_0, experiment.cw_0]
+
                 # print(f'Running experiment {experiment.name} with:\n' +
                 #       f'A: {A}\n' +
                 #       f'B: {B}')
@@ -64,28 +69,34 @@ if __name__ == '__main__':
                                 )
                 C = sol['y']
 
-                # plot_results(sol, experiment.conc_profileB)
                 pred_conversion = converter(sol['y'][1], experiment.cb_0, to='X')
                 conc_profile.append(C)
+                plot_results(experiment.time, experiment.conversion, pred_conversion)
                 exp_msqerror = mse(
                     y_true=experiment.conversion,
-                    y_pred=pred_conversion  # sol[][1] means Cb
+                    y_pred=pred_conversion              # sol[][1] means Cb
                 )
-                group_sqerror = group_sqerror + exp_msqerror
                 # print(f'MSE: {msqerror} \n')
+                run_id.append(active_run)
+                A_list.append(A)
+                B_list.append(B)
+                all_sqerrors.append(exp_msqerror)
+                experiment_label.append(experiment.name)
 
-            A_list.append(A)
-            B_list.append(B)
-            all_sqerrors.append(group_sqerror)
+            # A_list.append(A)
+            # B_list.append(B)
+            # all_sqerrors.append(group_sqerror)
             print(f'Group A= {A}\n B= {B} \n MSE= {group_sqerror}')
 
     results_dataframe = pd.DataFrame(
         zip(
+            run_id,
             A_list,
             B_list,
-            all_sqerrors
+            all_sqerrors,
+            experiment_label
         )
-        , columns=['A', 'B', 'MSE']
+        , columns=['A', 'B', 'MSE', 'experiment']
     )
 
     print('end')
