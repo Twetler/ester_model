@@ -106,7 +106,7 @@ if __name__ == '__main__':
     plot3d(
         np.asarray(results_overview['A']),
         np.asarray(results_overview['B']),
-        np.asarray(results_overview['MSE']))
+        np.asarray(results_overview['MSE']*-1))
     # results_overview.to_csv(path_or_buf='src/runs/run3.csv')
 
     print('end')

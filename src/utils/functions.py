@@ -77,6 +77,12 @@ def plot3d(x, y, z):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     ax.plot_trisurf(x, y, z)
+    plt.xlabel("A")
+    plt.ylabel("B")
+    ax.set_zlabel("MSE * -1")
+    ax.view_init(-90, 10)
+
     plt.show()
+
     return 0
 
