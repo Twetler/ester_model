@@ -71,12 +71,12 @@ if __name__ == '__main__':
 
                 pred_conversion = converter(sol['y'][1], experiment.cb_0, to='X')
                 conc_profile.append(C)
-                plot_results(experiment.time, experiment.conversion, pred_conversion)
+                # plot_results(experiment.time, experiment.conversion, pred_conversion)
                 exp_msqerror = mse(
                     y_true=experiment.conversion,
-                    y_pred=pred_conversion              # sol[][1] means Cb
+                    y_pred=pred_conversion  # sol[][1] means Cb
                 )
-                # print(f'MSE: {msqerror} \n')
+                print(f'MSE: {exp_msqerror} \n')
                 run_id.append(active_run)
                 A_list.append(A)
                 B_list.append(B)
@@ -86,7 +86,6 @@ if __name__ == '__main__':
             # A_list.append(A)
             # B_list.append(B)
             # all_sqerrors.append(group_sqerror)
-            print(f'Group A= {A}\n B= {B} \n MSE= {group_sqerror}')
 
     results_dataframe = pd.DataFrame(
         zip(
@@ -96,7 +95,18 @@ if __name__ == '__main__':
             all_sqerrors,
             experiment_label
         )
-        , columns=['A', 'B', 'MSE', 'experiment']
+        , columns=['id', 'A', 'B', 'MSE', 'experiment']
     )
+    results_overview = results_dataframe.groupby(
+        by=['A', 'B']
+    ).sum().sort_values(
+        by=['MSE']
+    ).reset_index()
+
+    plot3d(
+        np.asarray(results_overview['A']),
+        np.asarray(results_overview['B']),
+        np.asarray(results_overview['MSE']))
+    # results_overview.to_csv(path_or_buf='src/runs/run3.csv')
 
     print('end')
