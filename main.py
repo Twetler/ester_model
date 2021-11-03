@@ -71,7 +71,7 @@ if __name__ == '__main__':
 
                 pred_conversion = converter(sol['y'][1], experiment.cb_0, to='X')
                 conc_profile.append(C)
-                # plot_results(experiment.time, experiment.conversion, pred_conversion)
+                plot_results(experiment.time, experiment.conversion, pred_conversion)
                 exp_msqerror = mse(
                     y_true=experiment.conversion,
                     y_pred=pred_conversion  # sol[][1] means Cb
@@ -107,6 +107,6 @@ if __name__ == '__main__':
         np.asarray(results_overview['A']),
         np.asarray(results_overview['B']),
         np.asarray(results_overview['MSE']*-1))
-    # results_overview.to_csv(path_or_buf='src/runs/run3.csv')
+    results_overview.to_csv(path_or_buf='src/runs/run4.csv')
 
     print('end')
