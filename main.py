@@ -34,6 +34,7 @@ if __name__ == '__main__':
     conc_profile = list()
     experiment_label = list()
     run_id = list()
+    sol_list = list()
     active_run = 0
 
     for A in A_range:
@@ -68,10 +69,12 @@ if __name__ == '__main__':
                                 t_eval=experiment.time
                                 )
                 C = sol['y']
-
+                sol_list.append(sol)
                 pred_conversion = converter(sol['y'][1], experiment.cb_0, to='X')
                 conc_profile.append(C)
-                plot_results(experiment.time, experiment.conversion, pred_conversion)
+
+                # plot_results(experiment.time, experiment.conversion, pred_conversion)
+
                 exp_msqerror = mse(
                     y_true=experiment.conversion,
                     y_pred=pred_conversion  # sol[][1] means Cb
@@ -106,7 +109,33 @@ if __name__ == '__main__':
     plot3d(
         np.asarray(results_overview['A']),
         np.asarray(results_overview['B']),
-        np.asarray(results_overview['MSE']*-1))
-    results_overview.to_csv(path_or_buf='src/runs/run4.csv')
+        np.asarray(results_overview['MSE'] * -1))
+    results_overview.to_csv(path_or_buf='src/runs/run7.csv')
+
+    A_best = results_overview['A'][0]
+    B_best = results_overview['B'][0]
+    print(f'A_best = {A_best}\n B_best = {B_best}')
+    for experiment in model_A.experiments:
+        C0 = [experiment.ca_0, experiment.cb_0, experiment.ce_0, experiment.cw_0]
+        sol = solve_ivp(fun=experiment.model_proposal,
+                        t_span=[0, 120],
+                        y0=C0,
+                        method='RK45',
+                        args=(A_best,
+                              B_best,
+                              experiment.temperature,
+                              experiment.catalyst_conc,
+                              experiment.ion_exchange_cap,
+                              experiment.h_ions_per_mass,
+                              Keq,
+                              Ead,
+                              R
+                              ),
+                        t_eval=experiment.time
+                        )
+        pred_conversion = converter(sol['y'][1], experiment.cb_0, to='X')
+        plot_results(experiment.time, experiment.conversion, pred_conversion, name=experiment.name)
+
+    best_report = results_dataframe[(results_dataframe.A == A_best) & (results_dataframe.B == B_best)]
 
     print('end')
