@@ -110,7 +110,7 @@ if __name__ == '__main__':
         np.asarray(results_overview['A']),
         np.asarray(results_overview['B']),
         np.asarray(results_overview['MSE'] * -1))
-    results_overview.to_csv(path_or_buf='src/runs/run7.csv')
+    results_overview.to_csv(path_or_buf='src/runs/run8.csv')
 
     A_best = results_overview['A'][0]
     B_best = results_overview['B'][0]
