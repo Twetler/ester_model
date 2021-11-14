@@ -29,16 +29,17 @@ def experiment_init(experiments) -> list:
     return initialized_experiments
 
 
-def plot_results(t, x_true, x_pred):
+def plot_results(t, x_true, x_pred, name):
     # plt.plot(t, Ca, label='Ca_pred')
     plt.plot(t, x_pred, label='Cb_pred')
     # plt.plot(t, Ce, label='Ce_pred')
     # plt.plot(t, Cw, label='Cw_pred')
     plt.plot(t, x_true, label='Cb_real')
     plt.legend()
-    plt.title('Conversão X(t) ')
+    plt.title(f'{name} Conversão X(t) ')
     plt.xlabel('t (min)')
     plt.ylabel('X')
+    plt.ylim(0, 1)
     plt.show()
 
     return 0
@@ -73,7 +74,6 @@ def converter(input_arr, C0, to='X'):
 
 
 def plot3d(x, y, z):
-
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     ax.plot_trisurf(x, y, z)
@@ -85,4 +85,5 @@ def plot3d(x, y, z):
     plt.show()
 
     return 0
+
 

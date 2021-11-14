@@ -25,11 +25,11 @@ reaction_parameters:
   rho: 0.9
 iterational_parameters:
   # B and A are the reactants
-  steps: 100
-  lower_A_bound: 6e4
-  upper_A_bound: 10e6
-  lower_B_bound: 8e2
-  upper_B_bound: 30e3
+  steps: 20
+  lower_A_bound: 1e2
+  upper_A_bound: 5e6
+  lower_B_bound: 0
+  upper_B_bound: 8e3
 
 #  lower_A_bound: 5.85e6
 #  upper_A_bound: 5.888e6
