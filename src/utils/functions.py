@@ -1,6 +1,7 @@
 import yaml
 from src.experiments.experiments import Experiment
 import matplotlib.pyplot as plt
+from scipy.integrate import solve_ivp
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
@@ -31,18 +32,32 @@ def experiment_init(experiments) -> list:
 
 def plot_results(t, x_true, x_pred, name):
     # plt.plot(t, Ca, label='Ca_pred')
-    plt.plot(t, x_pred, label='Cb_pred')
+    plt.plot(t, x_pred, label='Pred')
     # plt.plot(t, Ce, label='Ce_pred')
     # plt.plot(t, Cw, label='Cw_pred')
-    plt.plot(t, x_true, label='Cb_real')
+    plt.plot(t, x_true, label='Real')
     plt.legend()
-    plt.title(f'{name} Conversão X(t) ')
+    plt.title(f'{name}')
     plt.xlabel('t (min)')
-    plt.ylabel('X')
+    plt.ylabel('Xb')
     plt.ylim(0, 1)
+    plt.grid()
     plt.show()
 
     return 0
+
+
+def plot_group_conversion(model, group: list, title: str):
+    for experiment in model.experiments:
+        if experiment.name in group:
+            plt.plot(experiment.time, experiment.conversion, label=experiment.name)
+    plt.legend()
+    plt.title(title)
+    plt.xlabel('t (min)')
+    plt.ylabel('X')
+    plt.ylim(0, 1)
+    plt.grid()
+    plt.show()
 
 
 def converter(input_arr, C0, to='X'):
@@ -79,7 +94,7 @@ def plot3d(x, y, z):
     ax.plot_trisurf(x, y, z)
     plt.xlabel("A")
     plt.ylabel("B")
-    ax.set_zlabel("MSE * -1")
+    ax.set_zlabel("1/MSE")
     ax.view_init(elev=10, azim=45)
 
     plt.show()
@@ -87,3 +102,30 @@ def plot3d(x, y, z):
     return 0
 
 
+def plot_selected_profiles(model, exp_group, A, B):
+    for experiment in model.experiments:
+        C0 = [experiment.ca_0, experiment.cb_0, experiment.ce_0, experiment.cw_0]
+
+        experiment.conc_profileB = converter(
+            input_arr=experiment.conversion,
+            C0=experiment.cb_0,
+            to='C'
+        )
+
+        sol = solve_ivp(fun=experiment.model_proposal,
+                        t_span=[0, 120],
+                        y0=C0,
+                        method='RK45',
+                        args=(A,
+                              B,
+                              experiment.temperature,
+                              experiment.catalyst_conc,
+                              experiment.ion_exchange_cap,
+                              experiment.h_ions_per_mass,
+                              Keq,
+                              Ead,
+                              R
+                              ),
+                        t_eval=experiment.time
+                        )
+        C = sol['y']

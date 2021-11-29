@@ -26,10 +26,10 @@ reaction_parameters:
 iterational_parameters:
   # B and A are the reactants
   steps: 20
-  lower_A_bound: 1e2
+  lower_A_bound: 2e6
   upper_A_bound: 5e6
   lower_B_bound: 0
-  upper_B_bound: 8e3
+  upper_B_bound: 1000
 
 #  lower_A_bound: 5.85e6
 #  upper_A_bound: 5.888e6

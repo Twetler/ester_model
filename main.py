@@ -1,8 +1,9 @@
 from model.models import ModelGroup
 from src.utils.functions import *
 import numpy as np
-from scipy.integrate import solve_ivp
+# from scipy.integrate import solve_ivp
 from sklearn.metrics import mean_squared_error as mse
+from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -35,9 +36,14 @@ if __name__ == '__main__':
     experiment_label = list()
     run_id = list()
     active_run = 0
+    len_total = len(A_range) * len(B_range) * len(model_A.experiments)
 
     for A in A_range:
         for B in B_range:
+
+            A = 3.36e6
+            B = 157.9
+
             group_sqerror = 0
             for experiment in model_A.experiments:
                 active_run += 1
@@ -71,12 +77,12 @@ if __name__ == '__main__':
 
                 pred_conversion = converter(sol['y'][1], experiment.cb_0, to='X')
                 conc_profile.append(C)
-                # plot_results(experiment.time, experiment.conversion, pred_conversion)
+                plot_results(experiment.time, experiment.conversion, pred_conversion, name=experiment.name)
                 exp_msqerror = mse(
                     y_true=experiment.conversion,
                     y_pred=pred_conversion  # sol[][1] means Cb
                 )
-                print(f'MSE: {exp_msqerror} \n')
+                print(f'Running : {active_run * 100 / len_total}% ')
                 run_id.append(active_run)
                 A_list.append(A)
                 B_list.append(B)
@@ -106,7 +112,11 @@ if __name__ == '__main__':
     plot3d(
         np.asarray(results_overview['A']),
         np.asarray(results_overview['B']),
-        np.asarray(results_overview['MSE'] * -1))
-    results_overview[['A', 'B', 'id', 'MSE']].to_csv(path_or_buf='src/runs/run6.csv')
+        np.power(
+            np.asarray(results_overview['MSE']), -1
+        )
+    )
+    results_overview[['A', 'B', 'id', 'MSE']].to_csv(path_or_buf='src/runs/run13.csv')
 
     print('end')
+# plot_group_conversion(model_A, ['ASP_70_1', 'ASP_80_1', 'ASP_70_3', 'ASP_80_3'], 'Conversão para o grupo ASP')
