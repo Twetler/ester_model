@@ -38,6 +38,9 @@ if __name__ == '__main__':
     active_run = 0
     len_total = len(A_range) * len(B_range) * len(model_A.experiments)
 
+    # Tweak
+    A_range = [3.36e6]
+    B_range = [157.9]
     for A in A_range:
         for B in B_range:
 
@@ -109,13 +112,13 @@ if __name__ == '__main__':
         by=['MSE']
     ).reset_index()
 
-    plot3d(
-        np.asarray(results_overview['A']),
-        np.asarray(results_overview['B']),
-        np.power(
-            np.asarray(results_overview['MSE']), -1
-        )
-    )
+    # plot3d(
+    #     np.asarray(results_overview['A']),
+    #     np.asarray(results_overview['B']),
+    #     np.power(
+    #         np.asarray(results_overview['MSE']), -1
+    #     )
+    # )
     results_overview[['A', 'B', 'id', 'MSE']].to_csv(path_or_buf='src/runs/run13.csv')
 
     print('end')
