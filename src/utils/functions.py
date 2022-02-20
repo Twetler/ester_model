@@ -47,6 +47,23 @@ def plot_results(t, x_true, x_pred, name):
     return 0
 
 
+def plot_residue(t, x_true, x_pred, name):
+    # plt.plot(t, Ca, label='Ca_pred')
+    y_res = x_true - x_pred
+    plt.plot(t, y_res, label='Resíduo')
+    # plt.plot(t, Ce, label='Ce_pred')
+    # plt.plot(t, Cw, label='Cw_pred')
+    plt.legend()
+    plt.title(f'{name}')
+    plt.xlabel('t (min)')
+    plt.ylabel('Xb')
+    plt.ylim(0, 1)
+    plt.grid()
+    plt.show()
+
+    return 0
+
+
 def plot_group_conversion(model, group: list, title: str):
     for experiment in model.experiments:
         if experiment.name in group:
@@ -54,7 +71,7 @@ def plot_group_conversion(model, group: list, title: str):
     plt.legend()
     plt.title(title)
     plt.xlabel('t (min)')
-    plt.ylabel('X')
+    plt.ylabel('Xb')
     plt.ylim(0, 1)
     plt.grid()
     plt.show()
